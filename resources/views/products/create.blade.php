@@ -46,11 +46,16 @@
                 </span>
                 @enderror
             </div>
-
-            <div class="form-group">
-                <label for="barcode">Barcode</label>
-                <input type="text" name="barcode" class="form-control @error('barcode') is-invalid @enderror"
-                    id="barcode" placeholder="barcode" value="{{ old('barcode') }}">
+            
+            <div class="form-group" >
+                    <input type="button" class="btn btn-info" value="Generate Barcode" onclick="randomValue();" /><br>
+                    <label for="barcode">Barcode</label><br>
+                    <input type="text" name="barcode" class="form-control @error('barcode') is-invalid @enderror"
+                    id="barcode" placeholder="barcode" value="{{ old('barcode') }}" >
+                    </br>
+                {{--  <input type="text" name="barcode" class="form-control @error('barcode') is-invalid @enderror"
+                    id="tb" placeholder="barcode" value="{{ old('barcode') }}" >
+                    <input type="button" value="Random Number!"  />  --}}
                 @error('barcode')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -95,6 +100,8 @@
 
             <button class="btn btn-primary" type="submit">Create</button>
         </form>
+       
+       
     </div>
 </div>
 @endsection
@@ -105,5 +112,17 @@
     $(document).ready(function () {
         bsCustomFileInput.init();
     });
+    //Genereate Barcode
+        function buttonClick() {
+            
+            var i = 1000;
+            i ++;
+            document.getElementById('test').value = i;
+        }
+    
+        function randomValue() {
+            var rnd = Math.floor(Math.random() * 1000000000);
+            document.getElementById('barcode').value = rnd;
+          }
 </script>
 @endsection

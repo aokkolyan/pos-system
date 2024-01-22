@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
+use App\Imports\ProductsImport;
+use App\Exports\ProductsExport;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -47,6 +50,7 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
+        // dd($request->all());
         $image_path = '';
 
         if ($request->hasFile('image')) {
@@ -140,5 +144,16 @@ class ProductController extends Controller
         return response()->json([
             'success' => true
         ]);
+    }
+    public function import(Request $request)
+    {
+      Excel::import(new ProductsImport,request()->file('file'));
+               
+      return back();
+    //   return redirect()->back()->with('success', 'All data successfully imported!');
+    }
+    public function export(Request $request)
+    {
+       return Excel::download( new ProductsExport ,'product.xlsx');
     }
 }

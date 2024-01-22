@@ -4,6 +4,16 @@
 @section('content-header', 'Product List')
 @section('content-actions')
 <a href="{{route('products.create')}}" class="btn btn-primary">Create Product</a>
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#importModal">
+    Import Data
+</button>
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+<a href="{{route('products.export')}}" class="btn btn-info">Export</a>
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
@@ -31,7 +41,7 @@
                 <tr>
                     <td>{{$product->id}}</td>
                     <td>{{$product->name}}</td>
-                    <td><img class="product-img" src="{{ Storage::url($product->image) }}" alt=""></td>
+                    <td style="text-align: center"><img class="product-img justify-content-center" src="{{ Storage::url($product->image) }}" ></td>
                     <td>{{$product->barcode}}</td>
                     <td>{{$product->price}}</td>
                     <td>{{$product->quantity}}</td>
@@ -48,9 +58,32 @@
                 @endforeach
             </tbody>
         </table>
+        
         {{ $products->render() }}
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Import CSV</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{{route('products.import')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="input-group mb-3">
+                    <input type="file" name="file" class="form-control">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
 @endsection
 
 @section('js')

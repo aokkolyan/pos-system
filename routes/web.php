@@ -28,4 +28,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('/cart/change-qty', [CartController::class, 'changeQty']);
     Route::delete('/cart/delete', [CartController::class, 'delete']);
     Route::delete('/cart/empty', [CartController::class, 'empty']);
+
+    Route::post('import' , [ProductController::class, 'import'])->name('products.import');
+    Route::get('export', [ProductController::class, 'export'])->name('products.export');
 });
